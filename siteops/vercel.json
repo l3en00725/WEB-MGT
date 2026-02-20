@@ -1,0 +1,8 @@
+{
+  "crons": [
+    {
+      "path": "/api/cron/run-skills",
+      "schedule": "0 9 * * *"
+    }
+  ]
+}
