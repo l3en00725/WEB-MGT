@@ -6,11 +6,9 @@ const schema = z.object({
   action: z.enum(['approved', 'rejected']),
 })
 
-export async function PATCH(
-  req: NextRequest,
-  { params }: { params: { resultId: string } }
-) {
-  const supabase = createClient()
+export async function PATCH(req: NextRequest, props: { params: Promise<{ resultId: string }> }) {
+  const params = await props.params;
+  const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 

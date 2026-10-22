@@ -70,11 +70,9 @@ async function fetchPSI(url: string, strategy: 'mobile' | 'desktop'): Promise<PS
   }
 }
 
-export async function GET(
-  req: NextRequest,
-  { params }: { params: { siteId: string } }
-) {
-  const supabase = createClient()
+export async function GET(req: NextRequest, props: { params: Promise<{ siteId: string }> }) {
+  const params = await props.params;
+  const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 

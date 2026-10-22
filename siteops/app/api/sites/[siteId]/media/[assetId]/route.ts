@@ -4,9 +4,10 @@ import { createAdminClient } from '@/lib/supabase/admin'
 
 export async function DELETE(
   _req: NextRequest,
-  { params }: { params: { siteId: string; assetId: string } }
+  props: { params: Promise<{ siteId: string; assetId: string }> }
 ) {
-  const supabase = createClient()
+  const params = await props.params;
+  const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 

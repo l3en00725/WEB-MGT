@@ -30,7 +30,7 @@ export async function GET(req: NextRequest) {
     return NextResponse.redirect(new URL('/dashboard?error=google_auth_expired', req.url))
   }
 
-  const supabase = createClient()
+  const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user || user.id !== state.userId) {
     return NextResponse.redirect(new URL('/login', req.url))

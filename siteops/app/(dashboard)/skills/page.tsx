@@ -2,7 +2,7 @@ import { createClient } from '@/lib/supabase/server'
 import SkillsClient from '@/components/dashboard/SkillsClient'
 
 export default async function SkillsPage() {
-  const supabase = createClient()
+  const supabase = await createClient()
 
   const [{ data: skills }, { data: sites }, { data: siteSkills }] = await Promise.all([
     supabase.from('skills').select('*').order('name'),

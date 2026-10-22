@@ -2,11 +2,9 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { google } from 'googleapis'
 
-export async function GET(
-  req: NextRequest,
-  { params }: { params: { siteId: string } }
-) {
-  const supabase = createClient()
+export async function GET(req: NextRequest, props: { params: Promise<{ siteId: string }> }) {
+  const params = await props.params;
+  const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) {
     return NextResponse.redirect(new URL('/login', req.url))

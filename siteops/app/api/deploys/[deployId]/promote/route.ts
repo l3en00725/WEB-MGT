@@ -3,11 +3,9 @@ import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { promoteToProduction } from '@/lib/vercel'
 
-export async function POST(
-  _req: NextRequest,
-  { params }: { params: { deployId: string } }
-) {
-  const supabase = createClient()
+export async function POST(_req: NextRequest, props: { params: Promise<{ deployId: string }> }) {
+  const params = await props.params;
+  const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 

@@ -2,12 +2,13 @@ import { createClient } from '@/lib/supabase/server'
 import { notFound } from 'next/navigation'
 import MediaLibraryClient from '@/components/dashboard/MediaLibraryClient'
 
-export default async function MediaLibraryPage({
-  params,
-}: {
-  params: { siteId: string }
-}) {
-  const supabase = createClient()
+export default async function MediaLibraryPage(
+  props: {
+    params: Promise<{ siteId: string }>
+  }
+) {
+  const params = await props.params;
+  const supabase = await createClient()
 
   const { data: site } = await supabase
     .from('sites')
