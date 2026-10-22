@@ -3,12 +3,13 @@ import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import PageSpeedPanel from '@/components/dashboard/PageSpeedPanel'
 
-export default async function SiteOverviewPage({
-  params,
-}: {
-  params: { siteId: string }
-}) {
-  const supabase = createClient()
+export default async function SiteOverviewPage(
+  props: {
+    params: Promise<{ siteId: string }>
+  }
+) {
+  const params = await props.params;
+  const supabase = await createClient()
 
   const { data: site } = await supabase
     .from('sites')

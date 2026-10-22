@@ -2,8 +2,9 @@ import { createClient } from '@/lib/supabase/server'
 import { notFound } from 'next/navigation'
 import QueueClient from '@/components/dashboard/QueueClient'
 
-export default async function SiteQueuePage({ params }: { params: { siteId: string } }) {
-  const supabase = createClient()
+export default async function SiteQueuePage(props: { params: Promise<{ siteId: string }> }) {
+  const params = await props.params;
+  const supabase = await createClient()
 
   const [{ data: sites }, { data: skills }, { data: site }] = await Promise.all([
     supabase.from('sites').select('id, name, domain').order('name'),

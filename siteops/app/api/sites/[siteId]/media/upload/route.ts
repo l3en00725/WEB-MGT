@@ -13,11 +13,9 @@ const OPTIMIZATION_CONFIG = {
 
 const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/svg+xml']
 
-export async function POST(
-  req: NextRequest,
-  { params }: { params: { siteId: string } }
-) {
-  const supabase = createClient()
+export async function POST(req: NextRequest, props: { params: Promise<{ siteId: string }> }) {
+  const params = await props.params;
+  const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 

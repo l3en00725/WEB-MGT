@@ -19,11 +19,9 @@ const updateSiteSchema = z.object({
   accessToken: z.string().optional(),
 })
 
-export async function GET(
-  _req: NextRequest,
-  { params }: { params: { siteId: string } }
-) {
-  const supabase = createClient()
+export async function GET(_req: NextRequest, props: { params: Promise<{ siteId: string }> }) {
+  const params = await props.params;
+  const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
@@ -37,11 +35,9 @@ export async function GET(
   return NextResponse.json(data)
 }
 
-export async function PATCH(
-  req: NextRequest,
-  { params }: { params: { siteId: string } }
-) {
-  const supabase = createClient()
+export async function PATCH(req: NextRequest, props: { params: Promise<{ siteId: string }> }) {
+  const params = await props.params;
+  const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
@@ -92,11 +88,9 @@ export async function PATCH(
   return NextResponse.json({ success: true })
 }
 
-export async function DELETE(
-  _req: NextRequest,
-  { params }: { params: { siteId: string } }
-) {
-  const supabase = createClient()
+export async function DELETE(_req: NextRequest, props: { params: Promise<{ siteId: string }> }) {
+  const params = await props.params;
+  const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 

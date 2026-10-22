@@ -2,7 +2,7 @@ import { createClient } from '@/lib/supabase/server'
 import Link from 'next/link'
 
 export default async function SitesPage() {
-  const supabase = createClient()
+  const supabase = await createClient()
   const { data: sites } = await supabase.from('sites').select('*').order('name')
 
   return (

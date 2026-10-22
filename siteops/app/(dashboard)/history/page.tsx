@@ -2,7 +2,7 @@ import { createClient } from '@/lib/supabase/server'
 import Link from 'next/link'
 
 export default async function HistoryPage() {
-  const supabase = createClient()
+  const supabase = await createClient()
 
   const [{ data: auditLogs }, { data: deploys }] = await Promise.all([
     supabase
